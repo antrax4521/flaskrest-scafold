@@ -1,0 +1,18 @@
+version: '2'
+
+services:
+    ms-comreport-test:
+        container_name: flaskrest
+        image: python:3.6.4
+        working_dir: /var/www/flaskrest
+        command: bash -c "pip3 install -r requirements.txt && gunicorn --bind 0.0.0.0:8099 app:app"
+        environment:
+            APPNAME: FLASKREST
+            WEB_CONCURRENCY: 3
+            PORT: 9000
+            API_KEY: cb8ea0df409c19e994958f72751fc2fe
+            DATABASE_URL: postgres://localhost:5432/postgres
+        ports:
+            - 9000:9000
+        volumes:
+            - .:/var/www/flaskrest

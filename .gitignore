@@ -1,0 +1,7 @@
+__pycache__/
+.vs/
+.vscode/
+.idea/
+.DS_Store
+.verndor/
+tmp/*.xlsx
