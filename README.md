@@ -17,5 +17,5 @@ docker-compose up
 ### Docker
 
 ```bash
-docker run -p 9000:9000 ms-comreport:latest
+docker run -p 8099:8099 ms-comreport:latest
 ```
