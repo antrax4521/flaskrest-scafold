@@ -1,6 +1,7 @@
 FROM python:3.6
 
 ENV SRC /app
+ENV PORT 8099
 ENV APPNAME "FLASKAPP"
 ENV API_KEY cb8ea0df409c19e994958f72751fc2fe # Only for auth token decorator
 
