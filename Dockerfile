@@ -1,17 +1,27 @@
-FROM python:3.6.4
+FROM python:3.6
 
-WORKDIR /var/www/flaskrest
-COPY . /var/www/flaskrest
+ENV SRC /app
+ENV APPNAME "FLASKAPP"
+ENV API_KEY cb8ea0df409c19e994958f72751fc2fe # Only for auth token decorator
 
-RUN pip3 install -r requirements.txt
+RUN apt-get -y update && apt-get -y upgrade
+RUN apt-get -y install nginx
+RUN mkdir $SRC $SRC/logs
 
-ENV APPNAME FLASKREST
-ENV WEB_CONCURRENCY 100
-ENV PORT 9000
-ENV API_KEY cb8ea0df409c19e994958f72751fc2fe
-ENV DATABASE_URL postgres://localhost:5432/postgres
+COPY config/site.conf /etc/nginx/sites-available/
+COPY config/entry-point.sh /
+RUN chmod +x /entry-point.sh && chmod 700 /entry-point.sh
 
-EXPOSE 9000
+RUN ln -s /etc/nginx/sites-available/site.conf /etc/nginx/sites-enabled
+RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
-VOLUME [ "/var/www/flaskrest" ]
-CMD [ "gunicorn", "--bind", "0.0.0.0:9000", "app:app" ]
+WORKDIR $SRC
+VOLUME [ "$SRC/logs" ]
+
+COPY . $SRC
+
+RUN pip3 install -r $SRC/requirements.txt
+
+EXPOSE 8099
+
+ENTRYPOINT ["/entry-point.sh"]
