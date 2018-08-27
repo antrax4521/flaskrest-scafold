@@ -3,6 +3,7 @@ Author: Eduardo Aguilar <dante.aguilar41@gmail.com>
 """
 
 import os
+import src.handlers
 from src.config.server import APP
 
 app = APP

@@ -5,7 +5,7 @@ Author: Eduardo Aguilar <dante.aguilar41@gmail.com>
 
 import time
 import os
-from flask import request
+from flask import request, jsonify
 
 
 class IO:
@@ -37,4 +37,4 @@ class IO:
         if 'data' in data:
             info['data'] = data['data']
 
-        return info, code
+        return jsonify(info), code

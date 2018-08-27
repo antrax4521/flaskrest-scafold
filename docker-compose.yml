@@ -1,18 +1,34 @@
 version: '2'
 
 services:
-    ms-comreport-test:
-        container_name: flaskrest
+    flask:
         image: python:3.6.4
         working_dir: /var/www/flaskrest
-        command: bash -c "pip3 install -r requirements.txt && gunicorn --bind 0.0.0.0:8099 app:app"
+        command: bash -c "pip3 install -r requirements.txt && gunicorn --worker-class gevent --bind 0.0.0.0:8099 app:app"
         environment:
             APPNAME: FLASKREST
             WEB_CONCURRENCY: 3
-            PORT: 9000
+            PORT: 8099
             API_KEY: cb8ea0df409c19e994958f72751fc2fe
-            DATABASE_URL: postgres://localhost:5432/postgres
+            TOKEN_SECRET: 103427e0-7715-0136-8b74-0026b6e97153
+            DATABASE_URL: postgres://postgres:1qaz2wsx@postgres:5432/test
+            REDIS_URL: redis://@redis:6379/1
         ports:
-            - 9000:9000
+            - 8099:8099
         volumes:
             - .:/var/www/flaskrest
+        links:
+            - "redis:redis"
+            - "postgres:postgres"
+
+            #PF1010iaABC27
+    redis:
+        image: redis
+
+    postgres:
+        image: postgres:10
+        restart: always
+        environment:
+            POSTGRES_PASSWORD: 1qaz2wsx
+            POSTGRES_USER: postgres
+            POSTGRES_DB: test

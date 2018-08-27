@@ -2,21 +2,16 @@
 Author: Eduardo Aguilar <dante.aguilar41@gmail.com>
 """
 
-from flask_restful import Resource
 from src.libs.io import IO
+from src.config.server import get_app
 
-class Ping(Resource):
-    """
-    Handler for /ping
-    """
+app = get_app()
 
-    def get(self):
-        """
-        GET /ping
-        """
+@app.route('/ping', methods=['GET'])
+def ping():
+    return IO.response({
+        'code': 200,
+        'message': 'ok',
+        'data': 'pong'
+    })
 
-        return IO.response({
-            'code': 200,
-            'message': 'test ok',
-            'data': 'pong'
-        })

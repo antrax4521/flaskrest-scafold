@@ -2,8 +2,12 @@ FROM python:3.6
 
 ENV SRC /app
 ENV PORT 8099
-ENV APPNAME "FLASKAPP"
-ENV API_KEY cb8ea0df409c19e994958f72751fc2fe # Only for auth token decorator
+ENV APPNAME "FLASK"
+ENV API_KEY cb8ea0df409c19e994958f72751fc2fe
+ENV TOKEN_SECRET 103427e0-7715-0136-8b74-0026b6e97153
+ENV DATABASE_URL postgres://user:password@host:5432/database
+ENV REDIS_URL redis://@host:18629/index
+
 
 RUN apt-get -y update && apt-get -y upgrade
 RUN apt-get -y install nginx
