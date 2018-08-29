@@ -1,12 +1,9 @@
-## InitBlock
-
 """
 Import all your handler files here
 """
 
-## EndBlock
-
 import src.handlers.ping
+import src.handlers.users
 import src.libs.commons as commons
 import src.libs.logger as logger
 from src.config.server import get_app
@@ -70,6 +67,7 @@ def not_fount(ex):
     })
 
 @app.errorhandler(InternalServerError)
+@app.errorhandler(Exception)
 def internal_server_error(ex):
     error = commons.parse_error(ex)
 
@@ -80,3 +78,4 @@ def internal_server_error(ex):
             'trace': error
         }
     })
+
