@@ -3,7 +3,6 @@ Import all your handler files here
 """
 
 import src.handlers.ping
-import src.handlers.users
 import src.libs.commons as commons
 import src.libs.logger as logger
 from src.config.server import get_app
