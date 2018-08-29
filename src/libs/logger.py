@@ -34,7 +34,10 @@ def log(message=None, level='DEBUG'):
     if not message:
         body = ''
     else:
-        body = json.dumps(message)
+        if isinstance(message, dict) or isinstance(message, list):
+            body = json.dumps(message)
+        elif isinstance(message, str):
+            body = message
 
     if service != '' and service != None:
         service = service.upper()
@@ -55,3 +58,19 @@ def log(message=None, level='DEBUG'):
     )
 
     LOGGER.debug(request_log)
+
+
+def debug(message=None):
+    log(message, 'DEBUG')
+
+def info(message=None):
+    log(message, 'INFO')
+
+def warning(message=None):
+    log(message, 'WARNING')
+
+def error(message=None):
+    log(message, 'ERROR')
+
+def get_handler():
+    return LOGGER

@@ -1,7 +1,7 @@
 import re
 import src.libs.logger as logger
 import src.libs.commons as commons
-from src.libs.io import IO
+from src.libs.io import
 
 def process_error(err):
     """Parse and evaluate an error to return a standard
