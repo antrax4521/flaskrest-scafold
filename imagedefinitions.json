@@ -1,0 +1,21 @@
+{
+    "taskDefinition": {
+      "family": "flaskapp",
+      "containerDefinitions": [
+        {
+          "name": "flaskapp",
+          "image": "repository.url/repo", //change with the correct url
+          "cpu": 100,
+          "portMappings": [
+            {
+              "protocol": "tcp",
+              "containerPort": 80,
+              "hostPort": 80
+            }
+          ],
+          "memory": 128,
+          "essential": true
+        }
+      ]
+    }
+  }
