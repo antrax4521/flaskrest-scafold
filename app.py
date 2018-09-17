@@ -4,11 +4,14 @@ Author: Eduardo Aguilar <dante.aguilar41@gmail.com>
 
 import os
 import src.handlers
-from src.config.server import APP
+from src.config.server import get_app
 
-app = APP
+app = get_app()
 
 if __name__ == '__main__':
-    PORT = int(os.environ.get('PORT'))
+    port = os.environ.get('PORT')
+    port = 5000 if not port else int(port)
 
-    APP.run(host="0.0.0.0", port=PORT, debug=True)
+    app.run(host="0.0.0.0", port=port, debug=True)
+
+
