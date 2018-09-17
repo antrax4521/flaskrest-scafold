@@ -1,32 +1,53 @@
 FROM python:3.6
 
-ENV SRC /app
-ENV PORT 8099
-ENV APPNAME "FLASK"
-ENV API_KEY cb8ea0df409c19e994958f72751fc2fe
-ENV TOKEN_SECRET 103427e0-7715-0136-8b74-0026b6e97153
-ENV DATABASE_URL postgres://user:password@host:5432/database
-ENV REDIS_URL redis://@host:18629/index
-
+###################################################################################
+# INSTALL DEPENDENCIES
+###################################################################################
 
 RUN apt-get -y update && apt-get -y upgrade
-RUN apt-get -y install nginx
-RUN mkdir $SRC $SRC/logs
+RUN apt-get -y install nginx supervisor
 
+###################################################################################
+# CONFIGURE NGINX
+###################################################################################
+
+RUN rm /etc/nginx/sites-enabled/default
 COPY config/site.conf /etc/nginx/sites-available/
-COPY config/entry-point.sh /
-RUN chmod +x /entry-point.sh && chmod 700 /entry-point.sh
-
-RUN ln -s /etc/nginx/sites-available/site.conf /etc/nginx/sites-enabled
+RUN ln -s /etc/nginx/sites-available/site.conf /etc/nginx/sites-enabled/site.conf
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
-WORKDIR $SRC
-VOLUME [ "$SRC/logs" ]
+###################################################################################
+# CONFIGURE SUPERVISOR
+###################################################################################
 
-COPY . $SRC
+RUN mkdir -p /var/log/supervisor
+COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-RUN pip3 install -r $SRC/requirements.txt
+###################################################################################
+# ADD FLASK APP
+###################################################################################
+
+RUN mkdir /app
+ADD . /app
+
+WORKDIR /app
+
+RUN pip3 install -r requirements.txt
+
+###################################################################################
+# ADD ENV VARS
+###################################################################################
+
+ENV APPNAME flaskapp
+ENV API_KEY 123123123123123123123123123
+ENV DATABASE_URL postgres://user:pass@host:5432/database
+
+###################################################################################
+# RUN AND EXPOSE THE APP
+###################################################################################
 
 EXPOSE 8099
 
-ENTRYPOINT ["/entry-point.sh"]
+RUN chmod -R 777 /app
+
+CMD [ "sh", "/app/config/entry-point.sh" ]
