@@ -6,12 +6,11 @@ services:
         working_dir: /var/www/flaskrest
         command: bash -c "pip3 install -r requirements.txt && gunicorn --worker-class gevent --bind 0.0.0.0:8099 app:app"
         environment:
-            APPNAME: FLASKREST
+            APPNAME: ms-users
             WEB_CONCURRENCY: 3
             PORT: 8099
-            API_KEY: cb8ea0df409c19e994958f72751fc2fe
-            TOKEN_SECRET: 103427e0-7715-0136-8b74-0026b6e97153
-            DATABASE_URL: postgres://postgres:1qaz2wsx@postgres:5432/test
+            API_KEY: 123123123123123123
+            DATABASE_URL: postgres://user:pass@host:5432/database
             REDIS_URL: redis://@redis:6379/1
         ports:
             - 8099:8099
@@ -19,16 +18,6 @@ services:
             - .:/var/www/flaskrest
         links:
             - "redis:redis"
-            - "postgres:postgres"
 
-            #PF1010iaABC27
     redis:
         image: redis
-
-    postgres:
-        image: postgres:10
-        restart: always
-        environment:
-            POSTGRES_PASSWORD: 1qaz2wsx
-            POSTGRES_USER: postgres
-            POSTGRES_DB: test
