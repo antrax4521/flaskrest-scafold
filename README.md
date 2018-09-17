@@ -1,5 +1,10 @@
 # Flaskrest Scafold
 
+## Requirements
+
+* Python >= 3.6
+* Docker and Docker Compose
+
 ## Install
 
 ```bash
